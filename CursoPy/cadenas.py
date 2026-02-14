@@ -51,4 +51,5 @@ print(nombre_agregado)
 #Mejor concatenacion
 nombre_agregado = f"{nombre_animal}s"
 print(nombre_agregado)
+#cadenas
 
