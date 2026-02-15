@@ -27,3 +27,8 @@ print('Precio: $', precio_producto)
 print('Cantidad disponible:', cantidad_producto)
 print('Disponible: ', disponivilidad)
 print('--------------------------------------------')
+print()
+print()
+print()
+
+
