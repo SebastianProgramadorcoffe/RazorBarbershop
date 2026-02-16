@@ -4,7 +4,7 @@ Empresa = " Global Mentori "
 Dominio = ".com.mx"
 Arroba = "@"
 
-Nombre_sin_espacios = Nombre.strip()
+Nombre_sin_espacios = Nombre.strip()#Quita los espacios al inicio y al final 
 Nombre_sin_espacios = Nombre_sin_espacios.replace(' ', '.')
 nombre_minusculas = Nombre_sin_espacios.lower()
 #Empresa
