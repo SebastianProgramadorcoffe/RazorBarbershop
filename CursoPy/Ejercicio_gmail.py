@@ -5,8 +5,8 @@ nombre_usuario = "Sebastian Beltran Ojeda"
 nombre_empresa = "Vidrio Lumi"
 dominio = ".edu.co"
 
-nombre_limpio = nombre_usuario.replace(' ', '.')
-nombre_minuscula = nombre_limpio.lower()
+nombre_limpio = nombre_usuario.replace(' ', '.')#Remplaza la palabra o el caracter incluido el espacio y remplaza 
+nombre_minuscula = nombre_limpio.lower() #Texto a minusculas - para mayusculas .upper()
 empresa_limpio = nombre_empresa.replace(' ', '')
 nombreE_minusculas = empresa_limpio.lower()
 empresa_limpio = "remplazo"
