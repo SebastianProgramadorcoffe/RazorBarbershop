@@ -12,6 +12,8 @@ print()
 print("Nombre:")
 print(f"Nombre: {almacen_nombre}")
 print(f"Edad: {alamacen_Edad}")
-print(f"Salario recibido: {salario}")
+#Para poder imprimir 2 o mas decimales cuando tenemos un valor 
+# flotante donde se encuentra la variable {salario:.cantidad de decimales y f(de float)}
+print(f"Salario recibido: {salario:.2f}")
 print(f"Es jefe: {boolean_jefe}")
 print()

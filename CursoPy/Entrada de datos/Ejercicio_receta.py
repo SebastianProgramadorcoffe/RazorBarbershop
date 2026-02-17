@@ -1,0 +1,13 @@
+print('***Sistema de Recetas de Cocina***')
+nombre_receta = input("Nombre de la receta: ")
+ingredientes_receta = input('Nombre los ingredientes: ')
+tiempo_preparacion = float(input('Tiempo de preparacion: '))
+dificultad_receta = input('Cual es la dificultad de la receta, (Alto,Medio,Facil)?: ')
+
+print('***Recetas de cocina***')
+print("______________________________________")
+print(f'Nombre de la receta: {nombre_receta}')
+print(f'Ingredientes: {ingredientes_receta}')
+print(f'Tiempo de preparación en minutos: {tiempo_preparacion}')
+print(f'Dificultad de preparación: {dificultad_receta}')
+print('______________________________________')
