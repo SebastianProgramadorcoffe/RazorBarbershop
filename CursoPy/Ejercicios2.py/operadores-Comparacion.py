@@ -19,7 +19,13 @@ print("\nDiferente")
 resultado = a != b
 print(resultado)
 
-print("\nIgualdad")
+print("\nMayor")
 #operador >
 resultado = a > b
 print(resultado)
+
+print("\nMenor")
+#operador <
+resultado = a < b
+print(resultado)
+
