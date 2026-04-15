@@ -27,3 +27,5 @@ nombre, apellido = input("ingresa tu nombre y apellido separado por (,): ").spli
 #La funcion .split(","), le agregamos el parametro ",", para que sea el caracter que separe el ingreso
 #y se almacene los 2 valores en varibales separadas.
 print(f"El autor del libro {nombre}{apellido}")
+
+#Operadores de asignacion compuesta
