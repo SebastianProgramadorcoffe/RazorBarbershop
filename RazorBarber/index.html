@@ -1055,6 +1055,122 @@
     opacity: 1;
     transform: translateY(0);
   }
+  /* ── FULLCALENDAR CUSTOM THEME ── */
+  #calendar {
+    font-family: 'Cormorant Garamond', serif;
+  }
+  #calendar .fc-toolbar-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--cream);
+    letter-spacing: 1px;
+  }
+  #calendar .fc-button {
+    background: transparent;
+    border: 0.5px solid rgba(184,134,11,0.4);
+    color: var(--cream-dark);
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 8px 14px;
+    transition: all 0.2s;
+    box-shadow: none;
+  }
+  #calendar .fc-button:hover,
+  #calendar .fc-button-active,
+  #calendar .fc-button-primary:not(:disabled).fc-button-active {
+    background: rgba(184,134,11,0.12);
+    border-color: var(--brass);
+    color: var(--brass-pale);
+    box-shadow: none;
+  }
+  #calendar .fc-button:focus { box-shadow: none; outline: none; }
+  #calendar .fc-col-header-cell-cushion {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--brass);
+    text-decoration: none;
+  }
+  #calendar .fc-daygrid-day-number {
+    color: var(--cream-dark);
+    font-size: 13px;
+    text-decoration: none;
+  }
+  #calendar .fc-day-today {
+    background: rgba(184,134,11,0.06) !important;
+  }
+  #calendar .fc-day-today .fc-daygrid-day-number {
+    color: var(--brass-pale);
+    font-weight: 500;
+  }
+  #calendar .fc-daygrid-day:hover {
+    background: rgba(184,134,11,0.04);
+    cursor: pointer;
+  }
+  #calendar .fc-event {
+    border-radius: 2px;
+    font-size: 12px;
+    font-family: 'Cormorant Garamond', serif;
+    padding: 2px 6px;
+    cursor: pointer;
+  }
+  #calendar .fc-scrollgrid {
+    border-color: rgba(184,134,11,0.15);
+  }
+  #calendar .fc-scrollgrid td,
+  #calendar .fc-scrollgrid th {
+    border-color: rgba(184,134,11,0.1);
+  }
+  #calendar .fc-theme-standard .fc-scrollgrid {
+    border: 0.5px solid rgba(184,134,11,0.2);
+  }
+  #calendar .fc-list-event:hover td { background: rgba(184,134,11,0.06); }
+  #calendar .fc-list-day-cushion {
+    background: var(--wood-mid);
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--brass);
+    text-transform: uppercase;
+  }
+  #calendar .fc-list-event-title { color: var(--cream-dark); }
+  #calendar .fc-timegrid-slot-label {
+    font-size: 11px;
+    color: var(--smoke);
+    font-family: 'Cinzel', serif;
+    letter-spacing: 1px;
+  }
+  #calendar .fc-non-business { background: rgba(0,0,0,0.2); }
+
+  /* Toast */
+  .toast {
+    position: fixed;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--wood-light);
+    border: 0.5px solid rgba(184,134,11,0.4);
+    color: var(--cream);
+    padding: 14px 28px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 15px;
+    letter-spacing: 1px;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.4s;
+    z-index: 9000;
+    white-space: nowrap;
+  }
+  .toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  .toast-success { border-color: rgba(100,180,100,0.4); }
+  .toast-error   { border-color: rgba(180,80,80,0.5); color: #e08080; }
 </style>
 </head>
 <body>
@@ -1069,6 +1185,7 @@
     <li><a href="#galeria">Galería</a></li>
     <li><a href="#precios">Precios</a></li>
     <li><a href="#horarios">Horarios</a></li>
+    <li><a href="#calendario">Calendario</a></li>
     <li><a href="#citas">Citas</a></li>
   </ul>
 </nav>
@@ -1140,7 +1257,7 @@
       <div class="price-name">Corte clásico</div>
       <div class="price-desc">Tijera o máquina con acabado limpio y perfilado preciso</div>
       <div class="price-line"></div>
-      <div class="price-amount">$20.000</div>
+      <div class="price-amount">$25.000</div>
       <div class="price-currency">COP</div>
     </div>
     <div class="price-card featured">
@@ -1148,21 +1265,21 @@
       <div class="price-name">Fade + barba</div>
       <div class="price-desc">Degradado profesional con perfilado completo de barba</div>
       <div class="price-line"></div>
-      <div class="price-amount">$25.000</div>
+      <div class="price-amount">$40.000</div>
       <div class="price-currency">COP</div>
     </div>
     <div class="price-card">
       <div class="price-name">Degradado suave</div>
       <div class="price-desc">Transición perfecta desde la raíz hasta los laterales</div>
       <div class="price-line"></div>
-      <div class="price-amount">$20.000</div>
+      <div class="price-amount">$30.000</div>
       <div class="price-currency">COP</div>
     </div>
     <div class="price-card">
       <div class="price-name">Navaja premium</div>
       <div class="price-desc">Perfilado de precisión con navaja en líneas y nuca</div>
       <div class="price-line"></div>
-      <div class="price-amount">$25.000</div>
+      <div class="price-amount">$35.000</div>
       <div class="price-currency">COP</div>
     </div>
   </div>
@@ -1185,7 +1302,7 @@
       <div class="info-panel-title">Horario de atención</div>
       <div class="schedule-row">
         <span class="schedule-day">Lunes — Viernes</span>
-        <span class="schedule-time">08:00 — 19:00</span>
+        <span class="schedule-time">09:00 — 19:00</span>
       </div>
       <div class="schedule-row">
         <span class="schedule-day">Sábado</span>
@@ -1193,7 +1310,7 @@
       </div>
       <div class="schedule-row">
         <span class="schedule-day">Domingo</span>
-        <span class="schedule-closed">"Por Agendamiento"</span>
+        <span class="schedule-closed">Cerrado</span>
       </div>
     </div>
 
@@ -1210,22 +1327,94 @@
         <span class="location-icon">◆</span>
         <div>
           <div class="location-label">Dirección</div>
-          <div class="location-value">Cl. 27a Nte. # 4-43, Popayán, Cauca</div>
+          <div class="location-value">Tu dirección aquí</div>
         </div>
       </div>
       <div class="location-detail">
         <span class="location-icon">◆</span>
         <div>
           <div class="location-label">WhatsApp</div>
-          <div class="location-value">+57 3138986080</div>
+          <div class="location-value">+57 300 000 0000</div>
         </div>
       </div>
-      <div class="map-embed">
-       <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d498.26888591296836!2d-76.58786966294628!3d2.456764880148806!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e30039bc242b021%3A0x785ea360f2dc47a6!2sCl.%2027a%20Nte.%20%23%204-43%2C%20Popay%C3%A1n%2C%20Cauca!5e0!3m2!1ses!2sco!4v1776297870253!5m2!1ses!2sco" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <div class="map-embed" onclick="alert('Aquí va tu iframe de Google Maps')">
+        ◆ &nbsp; Ver en Google Maps
       </div>
     </div>
   </div>
 </section>
+
+<!-- CALENDARIO -->
+<section id="calendario" style="background: var(--wood-dark); padding: 100px 48px; position:relative;">
+  <div style="position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(to right,transparent,var(--brass),transparent);opacity:0.3;"></div>
+  <div class="section-header reveal">
+    <span class="section-tag">Agenda</span>
+    <h2 class="section-title">Calendario de <em>Citas</em></h2>
+    <div class="ornament">
+      <div class="ornament-line"></div>
+      <div class="ornament-diamond"></div>
+      <div class="ornament-line"></div>
+    </div>
+    <p style="font-style:italic; color:var(--smoke); margin-top:16px; font-size:15px;">Haz clic en cualquier día para agendar una cita</p>
+  </div>
+  <div style="max-width:1100px; margin:0 auto;">
+    <div id="calendar" class="reveal"></div>
+  </div>
+</section>
+
+<!-- Modal nueva cita -->
+<div class="modal-backdrop" id="modalNuevaCita">
+  <div class="modal-box">
+    <button class="modal-close" onclick="RazorCalendar.closeModalNuevaCita()">×</button>
+    <h3 class="modal-title">Nueva <em style="color:var(--brass-light);font-style:italic;">Cita</em></h3>
+    <p style="font-size:13px;letter-spacing:2px;color:var(--brass);font-family:'Cinzel',serif;margin-bottom:24px;text-transform:uppercase;" id="modalCitaFecha"></p>
+    <div class="modal-field">
+      <label class="modal-label">Nombre del cliente</label>
+      <input class="modal-input" type="text" id="citaNombre" placeholder="Ej: Juan Pérez" />
+    </div>
+    <div class="modal-field">
+      <label class="modal-label">Hora</label>
+      <select class="modal-select" id="citaHora"></select>
+    </div>
+    <div class="modal-field">
+      <label class="modal-label">Servicio</label>
+      <select class="modal-select" id="citaServicio"></select>
+    </div>
+    <div class="modal-actions">
+      <button class="modal-cancel" onclick="RazorCalendar.closeModalNuevaCita()">Cancelar</button>
+      <button class="modal-save" id="btnGuardarCita" onclick="RazorCalendar.submitNuevaCita()">Confirmar cita</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal detalle cita -->
+<div class="modal-backdrop" id="modalDetalle">
+  <div class="modal-box">
+    <button class="modal-close" onclick="RazorCalendar.closeModalDetalle()">×</button>
+    <h3 class="modal-title">Detalle de <em style="color:var(--brass-light);font-style:italic;">Cita</em></h3>
+    <div style="margin:24px 0; display:flex; flex-direction:column; gap:14px;">
+      <div>
+        <div style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:3px;color:var(--brass);text-transform:uppercase;margin-bottom:4px;">Fecha y hora</div>
+        <div style="font-size:16px;color:var(--cream);" id="detalleFecha"></div>
+      </div>
+      <div>
+        <div style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:3px;color:var(--brass);text-transform:uppercase;margin-bottom:4px;">Cliente</div>
+        <div style="font-size:16px;color:var(--cream);" id="detalleNombre"></div>
+      </div>
+      <div>
+        <div style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:3px;color:var(--brass);text-transform:uppercase;margin-bottom:4px;">Servicio</div>
+        <div style="font-size:16px;color:var(--cream);" id="detalleServicio"></div>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="modal-cancel" onclick="RazorCalendar.closeModalDetalle()">Cerrar</button>
+      <button id="btnEliminarCita" style="flex:2;padding:12px;background:#4a1515;border:0.5px solid #7a2020;color:#e08080;font-family:'Cinzel',serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all 0.3s;">Eliminar cita</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast notificación -->
+<div id="toast" class="toast"></div>
 
 <!-- CITAS -->
 <section id="citas">
@@ -1236,7 +1425,7 @@
     <div class="citas-corner br"></div>
     <h2 class="citas-title">Reserva tu<br><em>próximo corte</em></h2>
     <p class="citas-desc">Sin esperas, sin complicaciones.<br>Escríbeme directo y agendamos tu cita.</p>
-    <a class="wa-button" href="https://wa.me/573138986080?text=Hola%20Sebastian,%20quiero%20agendar%20una%20cita%20en%20Razor%20Barber" target="_blank">
+    <a class="wa-button" href="https://wa.me/573000000000?text=Hola%20Sebastian,%20quiero%20agendar%20una%20cita%20en%20Razor%20Barber" target="_blank">
       <svg class="wa-icon" viewBox="0 0 24 24">
         <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
       </svg>
@@ -1368,5 +1557,16 @@
 
   renderGallery();
 </script>
+<!-- FullCalendar -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.css">
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js"></script>
+<!-- FullCalendar locale español -->
+<script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.10/locales/es.global.min.js"></script>
+<!-- Supabase JS -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<!-- Config (pon tus credenciales aquí) -->
+<script src="config.js"></script>
+<!-- Lógica del calendario -->
+<script src="calendario.js"></script>
 </body>
 </html>
