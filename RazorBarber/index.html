@@ -1214,6 +1214,54 @@
     <div class="scroll-arrow"></div>
   </div>
 </section>
+
+
+<!-- GALERÍA -->
+<section id="galeria">
+  <div class="section-header reveal">
+    <span class="section-tag">Trabajos</span>
+    <h2 class="section-title">La <em>Galería</em></h2>
+    <div class="ornament">
+      <div class="ornament-line"></div>
+      <div class="ornament-diamond"></div>
+      <div class="ornament-line"></div>
+    </div>
+  </div>
+ 
+  <div class="filter-bar reveal" id="filterBar">
+    <button class="filter-btn active" onclick="RazorGaleria.filtrar('todos', this)">Todos</button>
+    <button class="filter-btn" onclick="RazorGaleria.filtrar('fade', this)">Fade</button>
+    <button class="filter-btn" onclick="RazorGaleria.filtrar('degradado', this)">Degradado</button>
+    <button class="filter-btn" onclick="RazorGaleria.filtrar('clásico', this)">Clásico</button>
+    <button class="filter-btn" onclick="RazorGaleria.filtrar('navaja', this)">Navaja</button>
+  </div>
+ 
+  <!-- Estado de carga -->
+  <div id="galleryLoading" style="text-align:center; padding:60px 0; display:none;">
+    <div style="font-family:'Cinzel',serif; font-size:10px; letter-spacing:4px; color:var(--smoke); text-transform:uppercase;">Cargando galería...</div>
+  </div>
+ 
+  <!-- Estado vacío -->
+  <div id="galleryEmpty" style="text-align:center; padding:60px 0; display:none;">
+    <div style="font-size:36px; opacity:0.2; margin-bottom:16px;">◆</div>
+    <div style="font-family:'Cinzel',serif; font-size:10px; letter-spacing:3px; color:var(--smoke); text-transform:uppercase;">No hay cortes en esta categoría aún</div>
+  </div>
+ 
+  <div class="gallery-grid reveal" id="galleryGrid"></div>
+</section>
+ 
+<!-- Modal vista previa imagen -->
+<div class="modal-backdrop" id="modalImagen">
+  <div style="position:relative; max-width:90vw; max-height:90vh; display:flex; flex-direction:column; align-items:center; gap:16px;">
+    <button onclick="RazorGaleria.cerrarImagen()" style="position:absolute;top:-40px;right:0;background:none;border:none;color:var(--cream-dark);font-size:28px;cursor:pointer;font-family:'Playfair Display',serif;">×</button>
+    <img id="modalImagenSrc" src="" alt="" style="max-width:90vw; max-height:80vh; object-fit:contain; border:0.5px solid rgba(184,134,11,0.3);" />
+    <div style="text-align:center;">
+      <div id="modalImagenNombre" style="font-family:'Playfair Display',serif; font-size:20px; color:var(--cream);"></div>
+      <div id="modalImagenCat" style="font-family:'Cinzel',serif; font-size:10px; letter-spacing:3px; color:var(--brass); text-transform:uppercase; margin-top:4px;"></div>
+    </div>
+  </div>
+</div>
+
 <!-- PRECIOS -->
 <section id="precios">
   <div class="section-header reveal">
@@ -1417,119 +1465,16 @@
   <div class="footer-copy">© 2026 RazorBarber · Autor: Ing.Sebastian Beltran O · Barbershop · Todos los derechos reservados</div>
 </footer>
 
-<!-- MODAL -->
-<div class="modal-backdrop" id="modalBackdrop">
-  <div class="modal-box">
-    <button class="modal-close" onclick="closeModal()">×</button>
-    <h3 class="modal-title">Nuevo corte</h3>
-    <div class="modal-field">
-      <label class="modal-label">Nombre del corte</label>
-      <input class="modal-input" type="text" id="inputName" placeholder="Ej: Fade bajo con diseño" />
-    </div>
-    <div class="modal-field">
-      <label class="modal-label">Categoría</label>
-      <select class="modal-select" id="inputCat">
-        <option value="fade">Fade</option>
-        <option value="degradado">Degradado</option>
-        <option value="clásico">Clásico</option>
-        <option value="navaja">Navaja</option>
-      </select>
-    </div>
-    <div class="modal-field">
-      <label class="modal-label">Foto del corte</label>
-      <input class="modal-input" type="file" id="inputFile" accept="image/*,video/*" style="padding:8px 16px; cursor:pointer;" />
-    </div>
-    <div class="modal-actions">
-      <button class="modal-cancel" onclick="closeModal()">Cancelar</button>
-      <button class="modal-save" onclick="saveCut()">Guardar corte</button>
-    </div>
-  </div>
-</div>
-
+<!-- MODAL viejo eliminado - galería ahora en galeria.js -->
+ 
 <script>
-  // Gallery data
-  let cuts = [
-    { name: "Fade clásico", cat: "fade", src: null },
-    { name: "Skin fade", cat: "fade", src: null },
-    { name: "Degradado suave", cat: "degradado", src: null },
-    { name: "Corte académico", cat: "clásico", src: null },
-    { name: "Navaja perfilado", cat: "navaja", src: null },
-    { name: "Degradado alto", cat: "degradado", src: null },
-  ];
-
-  const icons = { fade: "✂", degradado: "◈", clásico: "◇", navaja: "◉" };
-  let activeFilter = "todos";
-
-  function renderGallery() {
-    const grid = document.getElementById("galleryGrid");
-    const list = activeFilter === "todos" ? cuts : cuts.filter(c => c.cat === activeFilter);
-    grid.innerHTML = list.map((c, i) => `
-      <div class="gallery-item" style="animation-delay:${i * 0.06}s">
-        <div class="gallery-item-inner">
-          ${c.src
-            ? `<img src="${c.src}" alt="${c.name}" />`
-            : `<div class="gallery-placeholder">
-                <div class="gallery-placeholder-icon">${icons[c.cat] || "◆"}</div>
-                <div class="gallery-placeholder-text">${c.cat}</div>
-              </div>`
-          }
-          <div class="gallery-item-overlay">
-            <div class="gallery-item-name">${c.name}</div>
-            <div class="gallery-item-cat">${c.cat}</div>
-          </div>
-        </div>
-      </div>
-    `).join("");
-  }
-
-  function filterGallery(cat, btn) {
-    activeFilter = cat;
-    document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
-    btn.classList.add("active");
-    renderGallery();
-  }
-
-  function openAddModal() {
-    document.getElementById("modalBackdrop").classList.add("open");
-  }
-
-  function closeModal() {
-    document.getElementById("modalBackdrop").classList.remove("open");
-    document.getElementById("inputName").value = "";
-    document.getElementById("inputFile").value = "";
-  }
-
-  function saveCut() {
-    const name = document.getElementById("inputName").value.trim();
-    const cat = document.getElementById("inputCat").value;
-    const file = document.getElementById("inputFile").files[0];
-    if (!name) { alert("Ingresa el nombre del corte"); return; }
-
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = e => {
-        cuts.unshift({ name, cat, src: e.target.result });
-        closeModal();
-        renderGallery();
-      };
-      reader.readAsDataURL(file);
-    } else {
-      cuts.unshift({ name, cat, src: null });
-      closeModal();
-      renderGallery();
-    }
-  }
-
   // Scroll reveal
   const observer = new IntersectionObserver(entries => {
     entries.forEach(e => {
       if (e.isIntersecting) e.target.classList.add("visible");
     });
   }, { threshold: 0.1 });
-
   document.querySelectorAll(".reveal").forEach(el => observer.observe(el));
-
-  renderGallery();
 </script>
 <!-- FullCalendar -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.css">
@@ -1540,6 +1485,8 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <!-- Config (pon tus credenciales aquí) -->
 <script src="config.js"></script>
+<!-- Lógica de galería -->
+<script src="galeria.js"></script>
 <!-- Lógica del calendario -->
 <script src="calendario.js"></script>
 </body>
