@@ -352,7 +352,7 @@
         // Cliente: notificación automática al barbero (tu número)
         showToast(`¡Cita agendada! Redirigiendo a WhatsApp...`, "success");
         const msg = encodeURIComponent(
-          `Hola Sebastian, tengo una nueva cita agendada:\n\n👤 Nombre: ${nombre}\n✂️ Servicio: ${servicio}\n📅 Fecha: ${fechaTexto}\n🕐 Hora: ${hora12}\n\nPor favor confirma mi cita. ¡Gracias!`
+          `Hola Sebastian, tengo una nueva cita agendada:\n\n!Nombre: ${nombre}\n!Servicio: ${servicio}\n!Fecha: ${fechaTexto}\n!Hora: ${hora12}\n\nPor favor confirma mi cita. ¡Muchas Gracias!`
         );
         setTimeout(() => {
           window.open(`https://wa.me/${WHATSAPP_NUM}?text=${msg}`, "_blank");
