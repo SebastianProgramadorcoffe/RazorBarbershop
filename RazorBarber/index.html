@@ -1384,6 +1384,32 @@
   </div>
 </section>
 
+<!-- Modal Login Admin -->
+<div class="modal-backdrop" id="modalLogin">
+  <div class="modal-box" style="max-width:380px;">
+    <button class="modal-close" onclick="RazorCalendar.cerrarModalLogin()">×</button>
+    <div style="text-align:center; margin-bottom:28px;">
+      <div style="font-family:'Cinzel',serif; font-size:11px; letter-spacing:4px; color:var(--brass); text-transform:uppercase; margin-bottom:8px;">Acceso</div>
+      <h3 class="modal-title" style="font-size:26px;">Panel <em style="color:var(--brass-light);font-style:italic;">Admin</em></h3>
+    </div>
+    <div class="modal-field">
+      <label class="modal-label">Correo electrónico</label>
+      <input class="modal-input" type="email" id="loginEmail" placeholder="tu@correo.com"
+        onkeydown="if(event.key==='Enter') document.getElementById('loginPass').focus()" />
+    </div>
+    <div class="modal-field">
+      <label class="modal-label">Contraseña</label>
+      <input class="modal-input" type="password" id="loginPass" placeholder="••••••••"
+        onkeydown="if(event.key==='Enter') RazorCalendar.login()" />
+    </div>
+    <p id="loginError" style="font-size:13px; color:#e08080; margin-top:4px; min-height:18px; font-style:italic;"></p>
+    <div class="modal-actions" style="margin-top:16px;">
+      <button class="modal-cancel" onclick="RazorCalendar.cerrarModalLogin()">Cancelar</button>
+      <button class="modal-save" id="btnLogin" onclick="RazorCalendar.login()">Ingresar</button>
+    </div>
+  </div>
+</div>
+
 <!-- Modal nueva cita -->
 <div class="modal-backdrop" id="modalNuevaCita">
   <div class="modal-box">
