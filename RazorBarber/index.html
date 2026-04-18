@@ -1188,6 +1188,16 @@
     <li><a href="#calendario">Calendario de Citas</a></li>
     <li><a href="#citas">Citas por WhatsApp</a></li>
   </ul>
+  <div style="display:flex; align-items:center; gap:12px;">
+    <span id="adminBadge" style="display:none; font-family:'Cinzel',serif; font-size:9px; letter-spacing:2px; color:#0a0a0a; background:var(--brass); padding:4px 12px; text-transform:uppercase;">Admin</span>
+    <button id="navBtnLogin" onclick="RazorCalendar.abrirModalLogin()" style="font-family:'Cinzel',serif; font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--brass); background:transparent; border:0.5px solid rgba(184,134,11,0.4); padding:8px 16px; cursor:pointer; transition:all 0.3s; display:inline-flex; align-items:center; gap:8px;">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      Admin
+    </button>
+    <button id="navBtnLogout" onclick="RazorCalendar.logout()" style="display:none; font-family:'Cinzel',serif; font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--smoke); background:transparent; border:0.5px solid rgba(255,255,255,0.1); padding:8px 16px; cursor:pointer; transition:all 0.3s;">
+      Salir
+    </button>
+  </div>
 </nav>
 
 
@@ -1378,7 +1388,7 @@
       <div class="ornament-diamond"></div>
       <div class="ornament-line"></div>
     </div>
-    <p style="font-style:italic; color:var(--smoke); margin-top:16px; font-size:15px;">Haz clic en cualquier día para agendar una cita</p>
+    <p id="calendarHint" style="font-style:italic; color:var(--smoke); margin-top:16px; font-size:15px;">Solo disponibilidad visible · Agenda tu cita por WhatsApp</p>
   </div>
   <div style="max-width:1100px; margin:0 auto;">
     <div id="calendar" class="reveal"></div>
