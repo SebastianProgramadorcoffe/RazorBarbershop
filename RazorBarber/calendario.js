@@ -105,7 +105,7 @@
     if (hint) {
       hint.textContent = admin
         ? "Admin · Clic en un día para agendar · Clic en una cita para ver detalle"
-        : "Solo disponibilidad visible · Agenda tu cita por WhatsApp";
+        : "Clic en un día disponible para agendar tu cita";
     }
   }
 
@@ -150,9 +150,8 @@
     }
   }
 
-  // ── 8. Guardar cita (solo admin) ─────────────────────────────
+  // ── 8. Guardar cita (cualquier usuario) ─────────────────────
   async function guardarCita(nombre, fechaHora, servicio) {
-    if (!esAdmin) throw new Error("Sin permisos");
     const { data, error } = await db
       .from("citas")
       .insert([{ nombre_cliente: nombre, fecha_hora: fechaHora, servicio }])
@@ -204,10 +203,6 @@
       },
 
       dateClick(info) {
-        if (!esAdmin) {
-          showToast("Solo el administrador puede agendar citas", "error");
-          return;
-        }
         const hoy = new Date();
         hoy.setHours(0,0,0,0);
         if (info.date < hoy) {
@@ -224,7 +219,11 @@
           showToast("Ese horario no está disponible", "error");
           return;
         }
-        if (!esAdmin) return;
+        // Solo admin puede ver detalle y eliminar
+        if (!esAdmin) {
+          showToast("Ese horario ya está reservado", "error");
+          return;
+        }
         openModalDetalle(ev);
       },
     });
@@ -287,19 +286,17 @@
 
   // ── 14. Submit nueva cita ────────────────────────────────────
   async function submitNuevaCita() {
-    if (!esAdmin) { showToast("Sin permisos", "error"); return; }
-
     const nombre   = document.getElementById("citaNombre").value.trim();
     const hora     = document.getElementById("citaHora").value;
     const servicio = document.getElementById("citaServicio").value;
 
-    if (!nombre) { showToast("Ingresa el nombre del cliente", "error"); return; }
+    if (!nombre) { showToast("Ingresa tu nombre", "error"); return; }
     if (!selectedDate) return;
 
     const fechaHora = `${selectedDate}T${hora}:00`;
 
     const ocupada = await horaOcupada(fechaHora);
-    if (ocupada) { showToast("Esa hora ya está ocupada", "error"); return; }
+    if (ocupada) { showToast("Esa hora ya está ocupada. Elige otra.", "error"); return; }
 
     const btn = document.getElementById("btnGuardarCita");
     btn.disabled    = true;
@@ -308,28 +305,34 @@
     try {
       const nuevaCita = await guardarCita(nombre, fechaHora, servicio);
 
+      // Agregar al calendario visualmente
       calendar.addEvent({
         id:              String(nuevaCita.id),
-        title:           `${nombre} — ${servicio}`,
+        title:           esAdmin ? `${nombre} — ${servicio}` : "Ocupado",
         start:           fechaHora,
-        backgroundColor: "#b8860b",
-        borderColor:     "#d4a017",
-        textColor:       "#0a0a0a",
-        extendedProps:   { nombre, servicio },
+        backgroundColor: esAdmin ? "#b8860b" : "#2d1c12",
+        borderColor:     esAdmin ? "#d4a017" : "rgba(184,134,11,0.3)",
+        textColor:       esAdmin ? "#0a0a0a" : "#7a6a58",
+        extendedProps:   esAdmin
+          ? { nombre, servicio }
+          : { esOcupado: true },
       });
 
       closeModalNuevaCita();
-      showToast(`Cita de ${nombre} agendada`, "success");
+      showToast(`Cita agendada para el ${hora}. ¡Te esperamos!`, "success");
 
-      const fechaTexto = new Date(fechaHora).toLocaleString("es-CO", {
-        weekday:"long", day:"numeric", month:"long",
-        hour:"2-digit", minute:"2-digit"
-      });
-      const msg = encodeURIComponent(
-        `Hola ${nombre}, tu cita en Razor Barber está confirmada para el ${fechaTexto}. Servicio: ${servicio}. ¡Te esperamos! 💈`
-      );
-      if (confirm("¿Enviar recordatorio por WhatsApp al cliente?")) {
-        window.open(`https://wa.me/${WHATSAPP_NUM}?text=${msg}`, "_blank");
+      // Recordatorio WhatsApp solo para admin
+      if (esAdmin) {
+        const fechaTexto = new Date(fechaHora).toLocaleString("es-CO", {
+          weekday:"long", day:"numeric", month:"long",
+          hour:"2-digit", minute:"2-digit"
+        });
+        const msg = encodeURIComponent(
+          `Hola ${nombre}, tu cita en Razor Barber está confirmada para el ${fechaTexto}. Servicio: ${servicio}. ¡Te esperamos! 💈`
+        );
+        if (confirm("¿Enviar recordatorio por WhatsApp al cliente?")) {
+          window.open(`https://wa.me/${WHATSAPP_NUM}?text=${msg}`, "_blank");
+        }
       }
 
     } catch (e) {
