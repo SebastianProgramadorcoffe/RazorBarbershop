@@ -32,6 +32,14 @@
     "18:00","18:30",
   ];
 
+  // Convierte "14:30" → "2:30 PM"
+  function a12h(hora24) {
+    const [h, m] = hora24.split(":").map(Number);
+    const periodo = h >= 12 ? "PM" : "AM";
+    const h12     = h % 12 || 12;
+    return `${h12}:${String(m).padStart(2,"0")} ${periodo}`;
+  }
+
 
   // ── 3. Auth — verificar sesión activa al cargar ─────────────
   async function verificarSesion() {
@@ -233,7 +241,10 @@
 
   // ── 12. Modal nueva cita ─────────────────────────────────────
   function openModalNuevaCita(dateStr) {
-    const horasOpts    = HORAS.map(h => `<option value="${h}">${h}</option>`).join("");
+    // Opciones de hora en formato 12h (value sigue siendo 24h para Supabase)
+    const horasOpts     = HORAS.map(h =>
+      `<option value="${h}">${a12h(h)}</option>`
+    ).join("");
     const serviciosOpts = SERVICIOS.map(s =>
       `<option value="${s.label}">${s.label} · ${s.precio}</option>`
     ).join("");
@@ -257,11 +268,13 @@
 
   // ── 13. Modal detalle / eliminar ─────────────────────────────
   function openModalDetalle(ev) {
-    const fecha = new Date(ev.start).toLocaleString("es-CO", {
-      weekday:"long", day:"numeric", month:"long",
-      hour:"2-digit", minute:"2-digit"
+    const fecha = new Date(ev.start).toLocaleDateString("es-CO", {
+      weekday:"long", day:"numeric", month:"long", year:"numeric"
     });
-    document.getElementById("detalleFecha").textContent    = fecha;
+    const hora = a12h(
+      new Date(ev.start).toLocaleTimeString("es-CO", { hour:"2-digit", minute:"2-digit", hour12:false })
+    );
+    document.getElementById("detalleFecha").textContent    = `${fecha} · ${hora}`;
     document.getElementById("detalleNombre").textContent   = ev.extendedProps.nombre;
     document.getElementById("detalleServicio").textContent = ev.extendedProps.servicio;
     document.getElementById("btnEliminarCita").onclick     = () => confirmarEliminar(ev.id, ev);
@@ -287,13 +300,13 @@
   // ── 14. Submit nueva cita ────────────────────────────────────
   async function submitNuevaCita() {
     const nombre   = document.getElementById("citaNombre").value.trim();
-    const hora     = document.getElementById("citaHora").value;
+    const hora24   = document.getElementById("citaHora").value;
     const servicio = document.getElementById("citaServicio").value;
 
     if (!nombre) { showToast("Ingresa tu nombre", "error"); return; }
     if (!selectedDate) return;
 
-    const fechaHora = `${selectedDate}T${hora}:00`;
+    const fechaHora = `${selectedDate}T${hora24}:00`;
 
     const ocupada = await horaOcupada(fechaHora);
     if (ocupada) { showToast("Esa hora ya está ocupada. Elige otra.", "error"); return; }
@@ -319,20 +332,31 @@
       });
 
       closeModalNuevaCita();
-      showToast(`Cita agendada para el ${hora}. ¡Te esperamos!`, "success");
 
-      // Recordatorio WhatsApp solo para admin
+      // Construir texto del mensaje con formato 12h
+      const hora12    = a12h(hora24);
+      const fechaTexto = new Date(fechaHora).toLocaleDateString("es-CO", {
+        weekday:"long", day:"numeric", month:"long", year:"numeric"
+      });
+
       if (esAdmin) {
-        const fechaTexto = new Date(fechaHora).toLocaleString("es-CO", {
-          weekday:"long", day:"numeric", month:"long",
-          hour:"2-digit", minute:"2-digit"
-        });
+        // Admin: recordatorio al cliente
+        showToast(`Cita de ${nombre} agendada a las ${hora12}`, "success");
         const msg = encodeURIComponent(
-          `Hola ${nombre}, tu cita en Razor Barber está confirmada para el ${fechaTexto}. Servicio: ${servicio}. ¡Te esperamos! 💈`
+          `Hola ${nombre}, tu cita en Razor Barber está confirmada para el ${fechaTexto} a las ${hora12}. Servicio: ${servicio}. ¡Te esperamos! 💈`
         );
         if (confirm("¿Enviar recordatorio por WhatsApp al cliente?")) {
           window.open(`https://wa.me/${WHATSAPP_NUM}?text=${msg}`, "_blank");
         }
+      } else {
+        // Cliente: notificación automática al barbero (tu número)
+        showToast(`¡Cita agendada! Redirigiendo a WhatsApp...`, "success");
+        const msg = encodeURIComponent(
+          `Hola Sebastian, tengo una nueva cita agendada:\n\n👤 Nombre: ${nombre}\n✂️ Servicio: ${servicio}\n📅 Fecha: ${fechaTexto}\n🕐 Hora: ${hora12}\n\nPor favor confirma mi cita. ¡Gracias!`
+        );
+        setTimeout(() => {
+          window.open(`https://wa.me/${WHATSAPP_NUM}?text=${msg}`, "_blank");
+        }, 800);
       }
 
     } catch (e) {
